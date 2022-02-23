@@ -1,0 +1,50 @@
+{% load static %}
+{% static "assets" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Blog Home - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                        {% if request.user.is_authenticated and request.user.is_staff == False %}
+    
+                            <li  class="nav-item"><a href="{% url 'profile'%}" >{{request.user.username}}</a></li>
+                            <a href="{% url 'logout' %}">Logout</a>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'index' %}">Blog</a></li>
+                        
+                        {% else %}
+                            <a href="{% url 'login' %}">Login</a>
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                            {% endif %}    
+                        </ul>
+                </div>
+            </div>
+        </nav>
+        <br><br>
+        {% if request.user.is_authenticated and request.user.is_staff == False %}
+        <form enctype="multipart/form-data" action ="" method = 'post'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Add blog">
+        </form>
+        {% endif %}     
+    </body>
+    </html>

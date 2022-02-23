@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form action="{% url 'uprofile'%}" method='post'>
+{% csrf_token %}
+{% if messages %}
+    {{messages}}
+{% endif %}
+{% for user1 in prof %} 
+{%if request.user.username == user1.user%}
+        {{form.as_p}}
+        <input type="submit" value="Update">
+{%endif%}
+{% endfor%}
+</form>
+</body>
+</html>
